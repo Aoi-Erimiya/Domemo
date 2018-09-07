@@ -1,0 +1,7 @@
+[package]
+name = "domemo"
+version = "0.1.0"
+authors = ["Hiroaki Wada <pp.790strasse@gmail.com>"]
+
+[dependencies]
+rand="0.3.0"
