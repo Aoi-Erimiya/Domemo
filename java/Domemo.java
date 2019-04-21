@@ -7,92 +7,99 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+import java.util.Comparator;
 
 public class Domemo {
-    public void show_cards(List<Integer> cards) {
-        strs = "";
+    public static void show_cards(List<Integer> cards) {
+        String s = "";
         for (int card : cards) {
-            strs += str(card);
+            s += String.valueOf(card);
         }
-        System.out.println(strs);
+        System.out.println(s);
     }
 
-    public void show_players(List<Integer> players) {
-        for (int i = 0; i < players.length(); ++i) {
+    public static void show_players(List<Player> players) {
+        for (int i = 0; i < players.size(); ++i) {
             if (i == 0) {
-                players[i].show_mask();
+                players.get(i).show_mask();
             } else {
-                players[i].show();
+                players.get(i).show();
             }
         }
     }
 
     public static void main(String[] args){
         List<Integer> cards = new ArrayList<Integer>(){
-            {
-                add(1);
-            }
+            { add(1); }
         };
 
-        List<Integer> cards = new ArrayList<Integer>(
-            new Integer[]{1,2,2,3,4,5}
-        );
-
         for(int i = 2; i < 8; ++i){
-            cards.add(cards[i] * i);
+            for(int j = 0; j < i; ++j){
+                cards.add(i);
+            }
         }
 
-        for(int idx = 0; i < cards.length(); ++i){
-            int swap_idx = random.randint(1, cards.length()-1);
-            int swap = cards[swap_idx];
-            cards[swap_idx] = cards[idx];
-            cards[idx] = swap;
+        Random random = new Random();
+
+        for(int idx = 0; idx < cards.size(); ++idx){
+            int swap_idx = random.nextInt(cards.size());
+            int swap = cards.get(swap_idx);
+            cards.set(swap_idx, cards.get(idx));
+            cards.set(idx, swap);
         }
         show_cards(cards);
 
         List<Integer> open_cards = new ArrayList<Integer>();
         for(int i = 0; i < 4; ++i){
-            open_cards.add(cards.pop());
+            open_cards.add(cards.remove(cards.size()-1));
         }
 
         List<Player> players = new ArrayList<Player>();
         for(int i = 0; i < 4; ++i){
-            players.add(Player("Player" + str(i+1), cards[5*i:5*(i+1)]));
-            players[i].cards.sort();
+            // TODO subListはスライスではない！
+            players.add(new Player("Player" + String.valueOf(i+1), cards.subList(5*i, 5*(i+1))));
+            players.get(i).getCards().sort(Comparator.naturalOrder());
         }
         
         show_players(players);
 
         int round_count = 1;
+        Scanner scanner = new Scanner(System.in);
 
         while(true){
-            System.out.println("Round" + str(round_count) + "------");
+            System.out.println("Round" + String.valueOf(round_count) + "------");
             show_cards(open_cards);
             show_players(players);
 
             for(Player player : players){
-                if(player.name == "Player1"){
-                    guess_card = int(input(">" + player.name + "->"));
+                int guess_card = 0;
+                if(player.getName() == "Player1"){
+                    System.out.print(">" + player.getName() + "->");                    
+                    String inputCard = scanner.next();
+                    guess_card = Integer.valueOf(inputCard);
                 }else{
-                    guess_card = random.randint(1, 7);
-                    System.out.println(">" + player.name + "->" + str(guess_card));
+                    guess_card = random.nextInt(7) + 1;
+                    System.out.println(">" + player.getName() + "->" + String.valueOf(guess_card));
                 }
-                sleep(1);
+                //Thread.sleep(1000);
 
-                result = player.match_card(guess_card);
+                int result = player.match_card(guess_card);
                 if(result > 0){
                     open_cards.add(result);
-                    open_cards.sort();
+                    open_cards.sort(Comparator.naturalOrder());
                 }
-                sleep(1);
+                //Thread.sleep(1000);
 
                 if(player.check()){
-                    System.out.println(player.name + " is Win!");
+                    System.out.println(player.getName() + " is Win!");
                     return;
                 }
             }
-            round_count += 1;
+            round_count++;
         }
     }
 }

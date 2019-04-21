@@ -7,7 +7,12 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+import java.util.List;
+
 public class Player {
+    private String name = "";
+    private List<Integer> cards = null;
+
     Player(String name, List<Integer> cards) {
         this.name = name;
         this.cards = cards;
@@ -22,15 +27,15 @@ public class Player {
     }
 
     public void show() {
-        cards = "";
+        String cards = "";
         for (int card : this.cards) {
-            cards += str(card);
+            cards += String.valueOf(card);
         }
         System.out.println(this.name + "->" + cards);
     }
 
     public void show_mask() {
-        cards = "";
+        String cards = "";
         for (int card : this.cards) {
             cards += "X";
         }
@@ -49,7 +54,7 @@ public class Player {
     }
 
     public boolean check() {
-        return len(this.cards) == 0;
+        return this.cards.size() == 0;
     }
 
 }
