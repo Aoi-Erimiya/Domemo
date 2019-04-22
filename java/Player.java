@@ -44,7 +44,7 @@ public class Player {
 
     public int match_card(int guess_card) {
         try {
-            this.cards.remove(guess_card);
+            this.cards.remove(this.cards.indexOf(guess_card));
             System.out.println("jackpot.");
             return guess_card;
         } catch (Exception e) {
