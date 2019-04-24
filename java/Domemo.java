@@ -27,8 +27,7 @@ public class Domemo {
     public static void show_players(List<Player> players) {
         for (int i = 0; i < players.size(); ++i) {
             if (i == 0) {
-                // players.get(i).show_mask();
-                players.get(i).show();
+                players.get(i).show_mask();
             } else {
                 players.get(i).show();
             }
@@ -67,7 +66,6 @@ public class Domemo {
         for (int i = 0; i < 4; ++i) {
             players.add(new Player("Player" + String.valueOf(i + 1),
                     cards.stream().skip(5 * i).limit(5).collect(Collectors.toList())));
-            // cards.subList(5 * i, 5 * (i + 1)).stream().collect(Collectors.toList())));
             players.get(i).getCards().sort(Comparator.naturalOrder());
         }
 
@@ -91,14 +89,12 @@ public class Domemo {
                     guess_card = random.nextInt(7) + 1;
                     System.out.println(">" + player.getName() + "->" + String.valueOf(guess_card));
                 }
-                // Thread.sleep(1000);
 
                 int result = player.match_card(guess_card);
                 if (result > 0) {
                     open_cards.add(result);
                     open_cards.sort(Comparator.naturalOrder());
                 }
-                // Thread.sleep(1000);
 
                 if (player.check()) {
                     System.out.println(player.getName() + " is Win!");
