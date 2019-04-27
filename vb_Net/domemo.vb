@@ -1,11 +1,3 @@
-'
-' domemo.vb
-'
-' Copyright (c) 2019 Hiroaki Wada
-'
-' This software is released under the MIT License.
-' http://opensource.org/licenses/mit-license.php
-'
 Module Module1
 
     ' Player2～4の手札を表示する
@@ -60,7 +52,7 @@ Module Module1
         Next
 
         ' 2: カードをシャッフルする
-        Dim shuffledCards As List(Of Integer) = 
+        Dim shuffledCards As List(Of Integer) =
             cards.OrderBy(Function(x) Guid.NewGuid()).ToList
 
         show(shuffledCards)
@@ -96,7 +88,11 @@ Module Module1
 
             ' 7: 各プレイヤーは他のプレイヤーのカードを見ながら、自分が持っているカードを予想して、宣言する
             ' Player1
-            Dim declaration As Integer = random.Next(7) + 1
+            System.Console.Write("input num ->")
+            Dim inputKey As ConsoleKeyInfo = Console.ReadKey()
+            System.Console.WriteLine("")
+
+            Dim declaration As Integer = Integer.Parse(inputKey.KeyChar)
             declarationCard(declaration, player1, "player1", openCards)
 
             ' Player2
@@ -112,7 +108,7 @@ Module Module1
             declarationCard(declaration, player4, "player4", openCards)
 
             ' 何か入力したら次のターンにいくようにする
-            Console.ReadKey()
+            'Console.ReadKey()
         Next
 
     End Sub
