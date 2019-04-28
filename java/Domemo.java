@@ -16,7 +16,7 @@ import java.util.Comparator;
 
 @SuppressWarnings("serial")
 public class Domemo {
-    public static void show_cards(List<Integer> cards) {
+    public static void showCards(List<Integer> cards) {
         String s = "";
         for (int card : cards) {
             s += String.valueOf(card);
@@ -24,10 +24,10 @@ public class Domemo {
         System.out.println(s);
     }
 
-    public static void show_players(List<Player> players) {
+    public static void showPlayers(List<Player> players) {
         for (int i = 0; i < players.size(); ++i) {
             if (i == 0) {
-                players.get(i).show_mask();
+                players.get(i).showMask();
             } else {
                 players.get(i).show();
             }
@@ -50,16 +50,16 @@ public class Domemo {
         Random random = new Random();
 
         for (int idx = 0; idx < cards.size(); ++idx) {
-            int swap_idx = random.nextInt(cards.size());
-            int swap = cards.get(swap_idx);
-            cards.set(swap_idx, cards.get(idx));
+            int swapIdx = random.nextInt(cards.size());
+            int swap = cards.get(swapIdx);
+            cards.set(swapIdx, cards.get(idx));
             cards.set(idx, swap);
         }
-        show_cards(cards);
+        showCards(cards);
 
-        List<Integer> open_cards = new ArrayList<Integer>();
+        List<Integer> openCards = new ArrayList<Integer>();
         for (int i = 0; i < 4; ++i) {
-            open_cards.add(cards.remove(cards.size() - 1));
+            openCards.add(cards.remove(cards.size() - 1));
         }
 
         List<Player> players = new ArrayList<Player>();
@@ -69,31 +69,31 @@ public class Domemo {
             players.get(i).getCards().sort(Comparator.naturalOrder());
         }
 
-        show_players(players);
+        showPlayers(players);
 
-        int round_count = 1;
+        int roundCount = 1;
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Round" + String.valueOf(round_count) + "------");
-            show_cards(open_cards);
-            show_players(players);
+            System.out.println("Round" + String.valueOf(roundCount) + "------");
+            showCards(openCards);
+            showPlayers(players);
 
             for (Player player : players) {
-                int guess_card = 0;
+                int guessCard = 0;
                 if (player.getName().equals("Player1")) {
                     System.out.print(">" + player.getName() + "->");
                     String inputCard = scanner.next();
-                    guess_card = Integer.valueOf(inputCard);
+                    guessCard = Integer.valueOf(inputCard);
                 } else {
-                    guess_card = random.nextInt(7) + 1;
-                    System.out.println(">" + player.getName() + "->" + String.valueOf(guess_card));
+                    guessCard = random.nextInt(7) + 1;
+                    System.out.println(">" + player.getName() + "->" + String.valueOf(guessCard));
                 }
 
-                int result = player.match_card(guess_card);
+                int result = player.matchCard(guessCard);
                 if (result > 0) {
-                    open_cards.add(result);
-                    open_cards.sort(Comparator.naturalOrder());
+                    openCards.add(result);
+                    openCards.sort(Comparator.naturalOrder());
                 }
 
                 if (player.check()) {
@@ -101,7 +101,7 @@ public class Domemo {
                     return;
                 }
             }
-            round_count++;
+            roundCount++;
         }
     }
 }

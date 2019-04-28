@@ -34,7 +34,7 @@ public class Player {
         System.out.println(this.name + "->" + cards);
     }
 
-    public void show_mask() {
+    public void showMask() {
         String cards = "";
         for (int card : this.cards) {
             cards += "X";
@@ -42,7 +42,7 @@ public class Player {
         System.out.println(this.name + "->" + cards);
     }
 
-    public int match_card(int guess_card) {
+    public int matchCard(int guess_card) {
         try {
             this.cards.remove(this.cards.indexOf(guess_card));
             System.out.println("jackpot.");
